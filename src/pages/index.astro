@@ -64,10 +64,6 @@ import Layout from '../layouts/Layout.astro';
 			puntos: opcion.puntos,
 			respuesta: opcion.texto   // 👈 Guardamos también la respuesta elegida
 		});
-
-		// Remover focus para evitar efecto hover pegado
-		document.activeElement.blur();
-
 		currentQuestion++;
 		if (currentQuestion < preguntas.length) {
 			mostrarPregunta();
@@ -101,21 +97,11 @@ import Layout from '../layouts/Layout.astro';
 		areasMejora.innerHTML = ""; // limpiar
 		debilidades.forEach(d => {
 		const li = document.createElement("li");
-			const preguntaDiv = document.createElement("div");
-			preguntaDiv.classList.add("pregunta-texto");
-			preguntaDiv.textContent = d.pregunta;
-
-			const respuestaDiv = document.createElement("div");
-			respuestaDiv.classList.add("respuesta-texto");
-			respuestaDiv.textContent = `"${d.respuesta}"`;
-
-			const puntajeDiv = document.createElement("div");
-			puntajeDiv.classList.add("puntaje-texto");
-			puntajeDiv.textContent = `(puntaje: ${d.puntos})`;
-
-			li.appendChild(preguntaDiv);
-			li.appendChild(respuestaDiv);
-			li.appendChild(puntajeDiv);
+			li.innerHTML = `
+				<div class="pregunta-texto">${d.pregunta}</div>
+				<div class="respuesta-texto">"${d.respuesta}"</div>
+				<div class="puntaje-texto">(puntaje: ${d.puntos})</div>
+			`;
 		areasMejora.appendChild(li);
 		});
 
