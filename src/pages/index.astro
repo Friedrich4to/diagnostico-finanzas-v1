@@ -1,11 +1,117 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Cuestionario Financiero">
+  <div id="quiz-container">
+    <!-- Aquí se mantiene la estructura fija -->
+    <div id="pregunta-section">
+      <h2 class="question-title" id="pregunta-texto"></h2>
+      <ul class="list" id="opciones-lista"></ul>
+    </div>
+
+    <!-- Sección de resultados -->
+    <div id="resultado-section">
+		<h2>Resultados</h2>
+		<div class="resultados-box">
+			<!-- Puntaje -->
+			<div>
+				<p id="puntaje-total"></p>
+				<div id="consejos"></div>
+			</div>
+			<!-- Áreas a mejorar -->
+			<div>
+				<h3 class="tips-title">Áreas a mejorar:</h3>
+				<ul id="areas-mejora"></ul>
+			</div>
+		</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { preguntas } from "/data/preguntas.js";
+
+    let currentQuestion = 0;
+    let respuestas = [];
+
+    const preguntaTexto = document.getElementById('pregunta-texto');
+    const opcionesLista = document.getElementById('opciones-lista');
+    const resultadoSection = document.getElementById('resultado-section');
+    const puntajeTotal = document.getElementById('puntaje-total');
+    const consejosDiv = document.getElementById('consejos');
+    const preguntaSection = document.getElementById('pregunta-section');
+	const areasMejora = document.getElementById('areas-mejora');
+
+    function mostrarPregunta() {
+      const pregunta = preguntas[currentQuestion];
+      preguntaTexto.textContent = pregunta.texto;
+      opcionesLista.innerHTML = ""; // limpiar opciones previas
+
+      pregunta.opciones.forEach((op, index) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = op.texto;
+        btn.addEventListener("click", () => seleccionarOpcion(index));
+        li.appendChild(btn);
+        opcionesLista.appendChild(li);
+      });
+    }
+
+    function seleccionarOpcion(opcionIndex) {
+		const opcion = preguntas[currentQuestion].opciones[opcionIndex];
+		respuestas.push({
+			pregunta: preguntas[currentQuestion].texto,
+			puntos: opcion.puntos,
+			respuesta: opcion.texto   // 👈 Guardamos también la respuesta elegida
+		});
+		currentQuestion++;
+		if (currentQuestion < preguntas.length) {
+			mostrarPregunta();
+		} else {
+			mostrarResultados();
+		}
+	}
+
+	function mostrarResultados() {
+		const totalPuntos = respuestas.reduce((sum, r) => sum + r.puntos, 0);
+
+		const minPuntos = Math.min(...respuestas.map(r => r.puntos));
+    	const debilidades = respuestas.filter(r => r.puntos < 5);
+
+		let consejos = "";
+
+		if (totalPuntos <= 10) {
+			consejos += "<p>Situación crítica, urgente tomar medidas.</p>";
+		} else if (totalPuntos <= 15) {
+			consejos += "<p>Situación frágil, debes fortalecer hábitos.</p>";
+		} else if (totalPuntos <= 20) {
+			consejos += "<p>Situación estable, con áreas por mejorar.</p>";
+		} else {
+			consejos += "<p>Salud financiera sólida, sigue creciendo.</p>";
+		}
+
+		// Mostrar consejos generales
+		consejosDiv.innerHTML = consejos;
+
+		// Rellenar áreas a mejorar en su <ul> fijo del HTML
+		areasMejora.innerHTML = ""; // limpiar
+		debilidades.forEach(d => {
+		const li = document.createElement("li");
+			li.innerHTML = `
+				<div class="pregunta-texto">${d.pregunta}</div>
+				<div class="respuesta-texto">"${d.respuesta}"</div>
+				<div class="puntaje-texto">(puntaje: ${d.puntos})</div>
+			`;
+		areasMejora.appendChild(li);
+		});
+
+		// Ocultar preguntas y mostrar resultados
+		preguntaSection.style.display = "none";
+		resultadoSection.style.display = "block";
+
+		puntajeTotal.textContent = `Puntaje total: ${totalPuntos}`;
+		}
+
+    mostrarPregunta();
+  </script>
 </Layout>

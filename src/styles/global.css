@@ -1,0 +1,154 @@
+@font-face {
+  font-family: 'Satoshi-Variable';
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2'),
+       url('/fonts/Satoshi-Variable.woff') format('woff'),
+       url('/fonts/Satoshi-Variable.ttf') format('truetype');
+       font-weight: 300 900;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'CabinetGrotesk-Extrabold';
+  src: url('/fonts/CabinetGrotesk-Extrabold.woff2') format('woff2'),
+       url('/fonts/CabinetGrotesk-Extrabold.woff') format('woff'),
+       url('/fonts/CabinetGrotesk-Extrabold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+:root{
+    --white: #EEEEEE;
+    --primary: #13181E;
+    --secondary: #685F3E;
+    --blue: #3C4CB3;
+    --green: #7AA14A;
+    --red: #CA3737;
+
+    font-family: 'Satoshi-Variable', sans-serif;
+    font-weight: 500;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+main{
+    width: 100%;
+    max-width: 900px;
+    margin: 5rem 4vw 4rem 4vw;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+
+h1,h3,h4,h5,h6,p,a{
+    margin: 0;
+    padding: 0;
+    text-decoration: 0;
+    line-height: 110%;
+    color: var(--white);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+button {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 6rem 3rem;
+    border-radius: 24px;
+    border: none;
+    background: var(--white);
+    color: var(--primary);
+    font-size: 2.4rem;
+    cursor: pointer;
+    transition: .25s;
+    text-align: center;
+    line-height: 110%;
+    font-family: 'Satoshi-Variable', sans-serif;
+    font-weight: 500;
+}
+
+button:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.list{
+    display: grid;
+    gap: 2rem;
+}
+
+.question-title{
+    font-size: 4rem;
+    font-family: 'CabinetGrotesk-Extrabold', sans-serif;
+    font-weight: 800;
+    text-align: center;
+}
+
+#resultado-section{
+    display: none;
+}
+
+#resultado-section h2{
+    font-size: 6rem;
+    font-family: 'CabinetGrotesk-Extrabold', sans-serif;
+    font-weight: 800;
+}
+
+.resultados-box{
+    display: grid;
+    gap: 7rem;
+}
+
+.resultados-box div{
+    display: grid;
+    gap: 1rem;
+}
+
+#puntaje-total{
+    font-size: 6rem;
+    font-weight: 800;
+}
+
+#consejos{
+    font-size: 4rem;
+    font-weight: 400;
+}
+
+.tips-title{
+    font-size: 6rem;
+    font-weight: 800;
+}
+
+#areas-mejora{
+    font-size: 2.75rem;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.pregunta-texto {
+    font-size: 2.25rem;
+    font-style: italic;
+    opacity: 60%;
+}
+
+.respuesta-texto {
+    font-weight: 500;
+}
+
+.puntaje-texto {
+    font-size: 1.5rem;
+    opacity: 60%;
+}
